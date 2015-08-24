@@ -9,30 +9,9 @@
 
             <p>Create a new category:</p>
 
-            <form action="/categories" method="post">
-                <div class="form-group">
-                    <label for="name">Category name:</label>
-                    <input id="name" name="name" type="text">
-                </div>
-
-                <button type="submit" class="btn btn-success">Add category</button>
-            </form>
-            <form action='/delete_categories' method='post'>
-                <div class="form-group">
-                    <button type='submit' class='btn btn-danger'>Delete Categories</button>
-                </div>
-            </form>
-
-            {% if categories is not empty %}
-                    <p>Here are all your categories:</p>
-                    <ul>
-                        {% for category in categories %}
-                            <li><a href="/categories/{{ category.getId }}">{{ category.getName }}</a></li>
-                        {% endfor %}
-                    </ul>
-            {% else %}
-                <p>There are no categories yet!</p>
-            {% endif %}
+            <h3><a href = "/categories">Add or view a category</a></h3>
+            <h3><a href = "/tasks">Add or view a task</a></h3>
+            
         </div>
     </body>
 </html>
