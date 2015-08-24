@@ -11,9 +11,16 @@
                 <p>Here are the tasks:</p>
                 <ul>
                     {% for task in tasks %}
-                        <li>{{ task.getDescription }} due by {{ task.getDueDate | date("m/d/Y") }}</li>
+                        <li>
+                            {# if task is completed, display it as checked #}
+                            <input onchange="window.location.href='/categories/{{ category.getId }}/{{ task.getId }}/completed'" type="checkbox" name="completed" value="true"
+                                {% if task.getCompleted == true %} checked{% endif %}>
+                            <a href = "/tasks/{{ task.getId }}">{{ task.getDescription }} due by {{ task.getDueDate }}</a>
+                        </li>
                     {% endfor %}
                 </ul>
+            {% else %}
+                <p>No tasks yet.</p>
             {% endif %}
 
             <p><a href="/categories/{{ category.getId }}/edit">Edit this category</a></p>

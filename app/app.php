@@ -161,6 +161,23 @@
         ));
     });
 
+    $app->get("/categories/{cat_id}/{task_id}/completed", function($cat_id, $task_id) use ($app) {
+        $category = Category::find($cat_id);
+        $task = Task::find($task_id);
+
+        // switch value of completed checkbox
+        if ($task->getCompleted() == 1) {
+            $task->updateCompleted(0);
+        } else {
+            $task->updateCompleted(1);
+        }
+        return $app['twig']->render('category.html.twig', array(
+            'category' => $category,
+            'tasks' => $category->getTasks(),
+            'all_tasks' => Task::getAll()
+        ));
+    });
+
 
     return $app;
 ?>
