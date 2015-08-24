@@ -146,6 +146,13 @@
         ));
     });
 
+    $app->get("/tasks/{id}/completed", function($id) use ($app) {
+        $task = Task::find($id);
+        $task->updateCompleted(true);
+        return $app['twig']->render('tasks.html.twig', array(
+            'tasks'=> Task::getAll()
+        ));
+    });
 
 
     return $app;
