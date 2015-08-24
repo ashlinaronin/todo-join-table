@@ -11,7 +11,8 @@
                 {% for task in tasks %}
                     <li>
                         {# if task is completed, display it as checked #}
-                        <input type="checkbox" name="completed" value="true"{% if task.getCompleted == true %} checked{% endif %}>
+                        <input onchange="window.location.href='/tasks/{{ task.getId }}/completed'" type="checkbox" name="completed" value="true"
+                            {% if task.getCompleted == true %} checked{% endif %}>
                         <a href = "/tasks/{{ task.getId }}">{{ task.getDescription }}</a>
                     </li>
                 {% endfor %}

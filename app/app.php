@@ -148,7 +148,14 @@
 
     $app->get("/tasks/{id}/completed", function($id) use ($app) {
         $task = Task::find($id);
-        $task->updateCompleted(true);
+
+        // switch value of completed checkbox
+        if ($task->getCompleted() == 1) {
+            $task->updateCompleted(0);
+        } else {
+            $task->updateCompleted(1);
+        }
+
         return $app['twig']->render('tasks.html.twig', array(
             'tasks'=> Task::getAll()
         ));
