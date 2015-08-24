@@ -51,9 +51,10 @@ class Task
 
     function save()
     {
-        $statement = $GLOBALS['DB']->exec("INSERT INTO tasks (description, due_date) VALUES (
+        $statement = $GLOBALS['DB']->exec("INSERT INTO tasks (description, due_date, completed) VALUES (
             '{$this->getDescription()}',
-            '{$this->getDueDate()}'
+            '{$this->getDueDate()}',
+            {$this->getCompleted()}
         );");
         $this->id = $GLOBALS['DB']->lastInsertId();
 
@@ -86,7 +87,8 @@ class Task
 
     function updateCompleted($new_completed)
     {
-        
+        $GLOBALS['DB']->exec("UPDATE tasks SET completed = {$new_completed} WHERE id = {$this->getId()};");
+        $this->setCompleted($new_completed);
     }
 
     static function getAll()
@@ -97,7 +99,8 @@ class Task
             $description = $task['description'];
             $due_date = $task['due_date'];
             $id = $task['id'];
-            $new_task = new Task($description, $due_date, $id);
+            $completed = $task['completed'];
+            $new_task = new Task($description, $due_date, $id, $completed);
             array_push($tasks, $new_task);
         }
 
