@@ -20,6 +20,21 @@
     $app['twig']->getExtension('core')->setTimezone('America/Los_Angeles');
 
 
+    /* Helper function to escape apostrophes and other special chars
+     * in an associative input array.
+     * Designed specifically to act on $_POST, but generalized to
+     * work for any associative array. It's safer to not
+     * act on $_POST directly, so we return a new escaped array. */
+    function escapeCharsInArray($input_associative_array) {
+        $escaped_array = array();
+        foreach($input_associative_array as $key => $value) {
+            $escaped_array[$key] = preg_quote($value, "'");
+        }
+        return $escaped_array;
+    }
+
+
+
     // Landing page. Allow user to create a new task or category.
     $app->get("/", function() use ($app) {
         return $app['twig']->render('index.html.twig', array(
@@ -44,8 +59,9 @@
     // [C] Create new task from form data, not yet associated with a category.
     // Then display all existing tasks.
     $app->post("/tasks", function() use ($app) {
-        $description = $_POST['description'];
-        $due_date = $_POST['due_date'];
+        $escaped_post = escapeCharsInArray($_POST);
+        $description = $escaped_post['description'];
+        $due_date = $escaped_post['due_date'];
         $task = new Task($description, $due_date);
         $task->save();
         return $app['twig']->render('tasks.html.twig', array(
@@ -97,7 +113,8 @@
     // [C] Create new category from form data, not yet containing any tasks.
     // Then display all existing categories.
     $app->post("/categories", function() use ($app) {
-        $category = new Category($_POST['name']);
+        $escaped_post = escapeCharsInArray($_POST);
+        $category = new Category($escaped_post['name']);
         $category->save();
         return $app['twig']->render('categories.html.twig', array(
             'categories' => Category::getAll()
