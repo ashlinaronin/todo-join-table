@@ -272,6 +272,41 @@
            //Assert
            $this->assertEquals([], $test_category->getTasks());
         }
+
+        function test_getCompleted()
+        {
+            //Arrange
+            $description = "Walk the dog";
+            $due_date = "4000-08-08";
+            $id = null;
+            $completed = false;
+            $test_task = new Task($description, $due_date, $id, $completed);
+            $test_task->save();
+
+            //Act
+            $result = Task::getAll();
+
+            //Assert
+            $this->assertEquals(false, $result[0]->getCompleted());
+        }
+
+        function test_updateCompleted()
+        {
+            //Arrange
+            $description = "Walk the dog";
+            $due_date = "4000-08-08";
+            $id = null;
+            $completed = false;
+            $test_task = new Task($description, $due_date, $id, $completed);
+            $test_task->save();
+
+            //Act
+            $test_task->updateCompleted(true);
+            $result = Task::getAll();
+
+            //Assert
+            $this->assertEquals(true, $result[0]->getCompleted());
+        }
     }
 
 

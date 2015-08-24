@@ -4,17 +4,24 @@ class Task
     private $description;
     private $due_date;
     private $id;
+    private $completed;
 
-    function __construct($description, $due_date, $id = null)
+    function __construct($description, $due_date, $id = null, $completed = false)
     {
         $this->description = $description;
         $this->due_date = $due_date;
         $this->id = $id;
+        $this->completed = (int) $completed;
     }
 
     function setDescription($new_description)
     {
         $this->description = (string) $new_description;
+    }
+
+    function setCompleted($new_completed)
+    {
+        $this->completed = (int) $new_completed;
     }
 
     function getDescription()
@@ -37,7 +44,10 @@ class Task
         $this->due_date = $new_due_date;
     }
 
-
+    function getCompleted()
+    {
+        return $this->completed;
+    }
 
     function save()
     {
@@ -71,6 +81,12 @@ class Task
             array_push($categories, $new_category);
         }
         return $categories;
+    }
+
+
+    function updateCompleted($new_completed)
+    {
+        
     }
 
     static function getAll()
